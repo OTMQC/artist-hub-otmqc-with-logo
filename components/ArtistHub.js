@@ -4,11 +4,23 @@ import Logo from "../public/TYPO ON THE MAP AB.png";
 
 export default function ArtistHub() {
   const [accessGranted, setAccessGranted] = useState(false);
+  const [artistName, setArtistName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [lockedUntil, setLockedUntil] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
+
+  const validArtists = [
+    "Eticrazy",
+    "JULZ",
+    "KDS Requinzer",
+    "d'ose",
+    "Zeke B",
+    "BbyBlurr",
+    "Lixfe",
+    "Bedis"
+  ];
 
   useEffect(() => {
     const storedLock = localStorage.getItem("otmqc-locked-until");
@@ -44,7 +56,10 @@ export default function ArtistHub() {
       return;
     }
 
-    if (password.trim() === "distrib-otmqc-2025!") {
+    const artistMatch = validArtists.includes(artistName.trim());
+    const passwordMatch = password.trim() === "distrib-otmqc-2025!";
+
+    if (artistMatch && passwordMatch) {
       setAccessGranted(true);
       setError("");
       setLoginAttempts(0);
@@ -61,7 +76,7 @@ export default function ArtistHub() {
         sendSecurityAlert();
         setError("Trop de tentatives. Accès verrouillé pendant 15 minutes.");
       } else {
-        setError("Mot de passe incorrect. Veuillez réessayer.");
+        setError("Nom d'artiste ou mot de passe incorrect. Veuillez réessayer.");
       }
     }
   };
@@ -80,6 +95,7 @@ export default function ArtistHub() {
 
   const handleLogout = () => {
     setAccessGranted(false);
+    setArtistName("");
     setPassword("");
     setError("");
     setLoginAttempts(0);
@@ -104,8 +120,15 @@ export default function ArtistHub() {
         <h1 className="text-4xl font-bold mb-6">🎤 Accès au formulaire – OnTheMapQc</h1>
         <p className="text-lg mb-4 max-w-xl">
           Ce formulaire est réservé aux artistes affiliés à OnTheMapQc.
-          Entrez le mot de passe pour y accéder.
+          Entrez votre nom d'artiste et le mot de passe pour y accéder.
         </p>
+        <input
+          type="text"
+          value={artistName}
+          onChange={(e) => setArtistName(e.target.value)}
+          placeholder="Nom d'artiste"
+          className="border px-4 py-2 rounded mb-2 w-64 text-center"
+        />
         <input
           type="password"
           value={password}
