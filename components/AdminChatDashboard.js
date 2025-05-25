@@ -18,7 +18,7 @@ export default function AdminChatDashboard() {
   const [codeInput, setCodeInput] = useState("");
   const [verified, setVerified] = useState(false);
 
-  const expectedCode = "4321"; // code à valider pour l'accès admin
+  const expectedCode = "4321";
 
   useEffect(() => {
     if (!verified) return;
@@ -27,8 +27,9 @@ export default function AdminChatDashboard() {
       const grouped = {};
       snapshot.forEach((doc) => {
         const msg = doc.data();
-        if (!grouped[msg.room]) grouped[msg.room] = [];
-        grouped[msg.room].push(msg);
+        const room = msg.room?.trim();
+        if (!grouped[room]) grouped[room] = [];
+        grouped[room].push(msg);
       });
       setMessagesByRoom(grouped);
       if (!selectedRoom && Object.keys(grouped).length) {

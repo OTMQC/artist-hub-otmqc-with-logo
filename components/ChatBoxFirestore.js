@@ -40,11 +40,11 @@ export function ChatBox({ artist }) {
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto mt-8 p-4 border rounded-xl bg-white shadow">
-      <h2 className="text-lg font-bold mb-3">💬 Discussion avec l’équipe OTMQC</h2>
+    <div className="w-full mx-auto mt-6 max-w-xl p-4 border rounded-xl bg-white shadow text-left">
+      <h2 className="text-lg font-bold mb-3">💬 Discussion avec OTMQC</h2>
       <div className="h-64 overflow-y-auto bg-gray-50 p-3 rounded border text-sm mb-4">
         {messages.length === 0 && (
-          <p className="text-gray-400 italic">Aucun message encore. Commence la conversation !</p>
+          <p className="text-gray-400 italic">Aucun message encore. Commence la discussion !</p>
         )}
         {messages.map((m, i) => (
           <div key={i} className="mb-2">
