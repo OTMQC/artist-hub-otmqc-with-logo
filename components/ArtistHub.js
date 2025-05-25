@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
+import fr from 'date-fns/locale/fr';
 
 import Logo from "../public/TYPO ON THE MAP AB.png";
 
@@ -203,7 +204,7 @@ export default function ArtistHub() {
     .slice(0, 2)
     .map((l) => ({
       ...l,
-      ago: formatDistanceToNow(new Date(l.date), { addSuffix: true }),
+      ago: formatDistanceToNow(new Date(l.date), { addSuffix: true, locale: fr }),
     }));
 
 
