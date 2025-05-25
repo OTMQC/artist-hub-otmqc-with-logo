@@ -16,7 +16,7 @@ export function ChatBox({ artist }) {
   const [message, setMessage] = useState("");
   const scrollRef = useRef(null);
 
-  const room = artist.trim(); // nom exact, comme "JULZ" ou "Eticrazy"
+  const room = artist.trim();
 
   useEffect(() => {
     const q = query(
@@ -52,18 +52,13 @@ export function ChatBox({ artist }) {
 
   return (
     <div className="w-full max-w-xl mx-auto mt-6 p-4 border rounded-xl bg-white shadow text-left">
-      <h2 className="text-lg font-bold mb-3">💬 Discussion avec OnTheMapQc</h2>
+      <h2 className="text-lg font-bold mb-3">💬 Messagerie</h2>
       <div
         ref={scrollRef}
         className="h-64 overflow-y-auto bg-gray-50 p-3 rounded border text-sm mb-4 space-y-2"
       >
-        {messages.length === 0 && (
-          <p className="text-gray-400 italic">
-            Aucun message encore. Commence la discussion !
-          </p>
-        )}
         {messages.map((m, i) => {
-          const isMine = m.from === artist;
+          const isMine = m.from?.trim().toLowerCase() === artist.trim().toLowerCase();
           return (
             <div
               key={i}
@@ -78,7 +73,7 @@ export function ChatBox({ artist }) {
               >
                 <p className="text-sm">{m.text}</p>
                 <p className="text-[10px] text-gray-400 mt-1 text-right">
-                  {m.timestamp?.toDate().toLocaleTimeString()}
+                  {m.timestamp?.toDate().toLocaleTimeString?.() ?? ""}
                 </p>
               </div>
             </div>
