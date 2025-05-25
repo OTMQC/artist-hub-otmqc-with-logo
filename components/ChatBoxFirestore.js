@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { db } from "./firebase";
 import {
   collection,
@@ -14,6 +14,7 @@ import {
 export function ChatBox({ artist }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const q = query(
@@ -27,6 +28,12 @@ export function ChatBox({ artist }) {
     });
     return () => unsubscribe();
   }, [artist]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -42,20 +49,28 @@ export function ChatBox({ artist }) {
   return (
     <div className="w-full mx-auto mt-6 max-w-xl p-4 border rounded-xl bg-white shadow text-left">
       <h2 className="text-lg font-bold mb-3">💬 Discussion avec OTMQC</h2>
-      <div className="h-64 overflow-y-auto bg-gray-50 p-3 rounded border text-sm mb-4">
+      <div ref={scrollRef} className="h-64 overflow-y-auto bg-gray-50 p-3 rounded border text-sm mb-4 space-y-2">
         {messages.length === 0 && (
           <p className="text-gray-400 italic">Aucun message encore. Commence la discussion !</p>
         )}
-        {messages.map((m, i) => (
-          <div key={i} className="mb-2">
-            <strong>{m.from}</strong>: {m.text}
-            <span className="text-gray-400 text-xs ml-2">
-              {m.timestamp?.toDate().toLocaleTimeString()}
-            </span>
-          </div>
-        ))}
+        {messages.map((m, i) => {
+          const isMine = m.from === artist;
+          return (
+            <div
+              key={i}
+              className={\`\${isMine ? 'text-right' : 'text-left'} flex \${isMine ? 'justify-end' : 'justify-start'}\`}
+            >
+              <div className={\`max-w-xs px-3 py-2 rounded-xl \${isMine ? 'bg-black text-white' : 'bg-gray-200 text-gray-900'}\`}>
+                <p className="text-sm">{m.text}</p>
+                <p className="text-[10px] text-gray-400 mt-1">
+                  {m.timestamp?.toDate().toLocaleTimeString()}
+                </p>
+              </div>
+            </div>
+          );
+        })}
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 mt-2">
         <input
           value={message}
           onChange={(e) => setMessage(e.target.value)}
