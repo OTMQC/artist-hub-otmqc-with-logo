@@ -41,10 +41,12 @@ export default function AdminChatDashboard() {
 
   const sendReply = async () => {
     if (!response.trim() || !selectedRoom) return;
+
+    const roomName = selectedRoom.trim(); // Assurer que l'on écrit exactement le bon nom
     await addDoc(collection(db, "messages"), {
       from: "admin",
       text: response,
-      room: selectedRoom,
+      room: roomName,
       timestamp: serverTimestamp()
     });
     setResponse("");
