@@ -115,10 +115,12 @@ export default function ArtistHub() {
   };
 
   const Header = () => (
-  <div className="mb-8 text-center">
-    <Image src={Logo} alt="OnTheMapQc Logo" width={200} height={100} className="mx-auto object-contain" />
-  </div>
-);
+    <div className="mb-8 flex justify-center">
+      <div className="mb-8 text-center">
+        <Image src={Logo} alt="OnTheMapQc Logo" width={144} height={144} className="mx-auto object-contain" />
+      </div>
+    </div>
+  );
 
   const mailtoLink =
     "mailto:julien@onthemapqc.com,guillaume@onthemapqc.com" +
@@ -127,7 +129,7 @@ export default function ArtistHub() {
 
   if (!accessGranted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex flex-col items-center justify-center px-4 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex items-center justify-center px-4 py-12">
         <Header />
         <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl px-10 py-12 animate-fade-in text-center border border-gray-100">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Portail d'artiste</h1>
