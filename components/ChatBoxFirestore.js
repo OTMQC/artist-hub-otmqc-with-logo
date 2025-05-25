@@ -49,19 +49,31 @@ export function ChatBox({ artist }) {
   return (
     <div className="w-full mx-auto mt-6 max-w-xl p-4 border rounded-xl bg-white shadow text-left">
       <h2 className="text-lg font-bold mb-3">💬 Discussion avec OTMQC</h2>
-      <div ref={scrollRef} className="h-64 overflow-y-auto bg-gray-50 p-3 rounded border text-sm mb-4 space-y-2">
+      <div
+        ref={scrollRef}
+        className="h-64 overflow-y-auto bg-gray-50 p-3 rounded border text-sm mb-4 space-y-2"
+      >
         {messages.length === 0 && (
-          <p className="text-gray-400 italic">Aucun message encore. Commence la discussion !</p>
+          <p className="text-gray-400 italic">
+            Aucun message encore. Commence la discussion !
+          </p>
         )}
         {messages.map((m, i) => {
           const isMine = m.from === artist;
-          const alignmentClass = isMine ? "text-right justify-end" : "text-left justify-start";
-          const bubbleStyle = isMine ? "bg-black text-white" : "bg-gray-200 text-gray-900";
           return (
-            <div key={i} className={`flex ${alignmentClass}`}>
-              <div className={`max-w-xs px-3 py-2 rounded-xl ${bubbleStyle}`}>
+            <div
+              key={i}
+              className={`flex ${isMine ? "justify-end" : "justify-start"}`}
+            >
+              <div
+                className={`max-w-xs px-4 py-2 rounded-2xl ${
+                  isMine
+                    ? "bg-black text-white rounded-br-none"
+                    : "bg-gray-200 text-gray-900 rounded-bl-none"
+                }`}
+              >
                 <p className="text-sm">{m.text}</p>
-                <p className="text-[10px] text-gray-400 mt-1">
+                <p className="text-[10px] text-gray-400 mt-1 text-right">
                   {m.timestamp?.toDate().toLocaleTimeString()}
                 </p>
               </div>
