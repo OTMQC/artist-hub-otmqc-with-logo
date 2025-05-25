@@ -8,6 +8,7 @@ export default function ArtistHub() {
   const [artistName, setArtistName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [lockedUntil, setLockedUntil] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -115,12 +116,10 @@ export default function ArtistHub() {
   };
 
   const Header = () => (
-    <div className="mb-8 flex justify-center">
-      <div className="mb-8 text-center">
-        <Image src={Logo} alt="OnTheMapQc Logo" width={144} height={144} className="mx-auto object-contain" />
-      </div>
-    </div>
-  );
+  <div className="mb-8 text-center">
+    <Image src={Logo} alt="OnTheMapQc Logo" width={200} height={100} className="mx-auto object-contain" />
+  </div>
+);
 
   const mailtoLink =
     "mailto:julien@onthemapqc.com,guillaume@onthemapqc.com" +
@@ -129,7 +128,7 @@ export default function ArtistHub() {
 
   if (!accessGranted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex items-center justify-center px-4 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex flex-col items-center justify-center px-4 py-12">
         <Header />
         <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl px-10 py-12 animate-fade-in text-center border border-gray-100">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Portail d'artiste</h1>
@@ -144,13 +143,24 @@ export default function ArtistHub() {
             placeholder="Nom d'artiste"
             className="w-full px-4 py-3 mb-4 border border-gray-300 rounded-xl text-center text-sm focus:outline-none focus:ring-2 focus:ring-black"
           />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Mot de passe"
-            className="border px-4 py-2 rounded mb-2 w-64 text-center"
-          />
+          
+          <div className="relative w-full mb-4">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Mot de passe"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl text-center text-sm focus:outline-none focus:ring-2 focus:ring-black pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-black"
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
+
           {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
           {lockedUntil && timeLeft > 0 && (
             <p className="text-sm text-orange-600 mb-2">
