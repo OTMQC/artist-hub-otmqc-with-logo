@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Logo from "../public/TYPO ON THE MAP AB.png";
@@ -128,11 +129,11 @@ export default function ArtistHub() {
 
   if (!accessGranted) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-6">
+      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex items-center justify-center px-4 py-12">
         <Header />
-        <div className="bg-white shadow-xl border border-gray-200 rounded-2xl px-8 py-10 w-full max-w-md text-center animate-fade-in">
-          <h1 className="text-3xl font-bold mb-4">Portail d'artiste</h1>
-          <p className="text-lg mb-4 max-w-xl">
+        <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl px-10 py-12 animate-fade-in text-center border border-gray-100">
+          <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Portail d'artiste</h1>
+          <p className="text-gray-600 mb-6 text-base">
             Ce formulaire est réservé aux artistes affiliés à OnTheMapQc.
             Entrez votre nom d'artiste et le mot de passe pour y accéder.
           </p>
@@ -141,14 +142,14 @@ export default function ArtistHub() {
             value={artistName}
             onChange={(e) => setArtistName(e.target.value)}
             placeholder="Nom d'artiste"
-            className="w-full border border-gray-300 px-4 py-3 rounded-xl mb-4 text-center focus:outline-none focus:ring-2 focus:ring-black"
+            className="w-full px-4 py-3 mb-4 border border-gray-300 rounded-xl text-center text-sm focus:outline-none focus:ring-2 focus:ring-black"
           />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Mot de passe"
-            className="w-full border border-gray-300 px-4 py-3 rounded-xl mb-4 text-center focus:outline-none focus:ring-2 focus:ring-black"
+            className="border px-4 py-2 rounded mb-2 w-64 text-center"
           />
           {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
           {lockedUntil && timeLeft > 0 && (
@@ -158,13 +159,13 @@ export default function ArtistHub() {
           )}
           <button
             onClick={handleSubmit}
-            className="w-full bg-black text-white py-3 rounded-xl shadow-md hover:bg-gray-800 transition font-semibold text-lg"
+            className="w-full bg-black text-white py-3 rounded-xl font-semibold shadow-lg hover:bg-gray-900 transition-all duration-200"
           >
             Accéder
           </button>
           <a
             href={mailtoLink}
-            className="mt-4 text-sm text-blue-600 underline block"
+            className="mt-4 text-sm text-blue-600 underline block hover:text-blue-800"
           >
             Contacter l'équipe
           </a>
