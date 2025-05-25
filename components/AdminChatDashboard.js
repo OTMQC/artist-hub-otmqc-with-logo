@@ -14,8 +14,14 @@ export default function AdminChatDashboard() {
   const [messagesByRoom, setMessagesByRoom] = useState({});
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [response, setResponse] = useState("");
+  const [authStep, setAuthStep] = useState("code");
+  const [codeInput, setCodeInput] = useState("");
+  const [verified, setVerified] = useState(false);
+
+  const expectedCode = "4321"; // code à valider pour l'accès admin
 
   useEffect(() => {
+    if (!verified) return;
     const q = query(collection(db, "messages"), orderBy("timestamp"));
     const unsub = onSnapshot(q, (snapshot) => {
       const grouped = {};
@@ -30,7 +36,7 @@ export default function AdminChatDashboard() {
       }
     });
     return () => unsub();
-  }, [selectedRoom]);
+  }, [selectedRoom, verified]);
 
   const sendReply = async () => {
     if (!response.trim() || !selectedRoom) return;
@@ -42,6 +48,37 @@ export default function AdminChatDashboard() {
     });
     setResponse("");
   };
+
+  const handleCodeSubmit = () => {
+    if (codeInput === expectedCode) {
+      setVerified(true);
+      setAuthStep("granted");
+    } else {
+      alert("Code incorrect");
+    }
+  };
+
+  if (!verified) {
+    return (
+      <div className="max-w-sm mx-auto mt-12 border p-6 rounded-xl text-center">
+        <h2 className="text-xl font-semibold mb-4">🔐 Vérification d'identité</h2>
+        <p className="mb-2 text-sm text-gray-600">Entrez le code à 4 chiffres reçu par SMS</p>
+        <input
+          type="text"
+          maxLength={4}
+          value={codeInput}
+          onChange={(e) => setCodeInput(e.target.value)}
+          className="border px-3 py-2 rounded text-center tracking-widest text-lg"
+        />
+        <button
+          onClick={handleCodeSubmit}
+          className="block bg-black text-white px-6 py-2 mt-4 rounded"
+        >
+          Valider
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-6 border rounded-xl p-4">
