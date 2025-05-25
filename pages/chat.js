@@ -4,11 +4,13 @@ import { ChatBox } from "../components/ChatBoxFirestore";
 import { useRouter } from "next/router";
 
 export default function ChatPage() {
-  const [artistName, setArtistName] = useState("");
+  const [artistName, setArtistName] = useState(null);
   const [lastSeen, setLastSeen] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const stored = localStorage.getItem("current-artist");
     if (stored) {
       setArtistName(stored);
@@ -27,6 +29,14 @@ export default function ChatPage() {
     localStorage.removeItem("current-artist");
     router.push("/");
   };
+
+  if (!artistName || artistName === "admin") {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-center text-red-600 font-bold">
+        Accès non autorisé à cette page.
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white px-4 py-8 sm:px-10 max-w-2xl mx-auto text-center">
