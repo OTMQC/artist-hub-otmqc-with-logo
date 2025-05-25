@@ -19,7 +19,7 @@ export function ChatBox({ artist }) {
   useEffect(() => {
     const q = query(
       collection(db, "messages"),
-      where("room", "==", artist),
+      where("room", "in", [artist, artist.toLowerCase(), artist.toUpperCase()]),
       orderBy("timestamp")
     );
     const unsubscribe = onSnapshot(q, (snapshot) => {
