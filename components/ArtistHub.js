@@ -142,7 +142,7 @@ export default function ArtistHub() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex flex-col items-center justify-center px-4 py-12">
         <Header />
-        <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl px-10 py-12 animate-fade-in text-center border border-gray-100">
+        <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl px-6 sm:px-10 py-10 sm:py-12 animate-fade-in text-center border border-gray-100">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Portail d'artiste</h1>
           <p className="text-gray-600 mb-6 text-base">
             Ce formulaire est réservé aux artistes affiliés à OnTheMapQc.
@@ -209,10 +209,10 @@ export default function ArtistHub() {
 
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center text-center p-12">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center text-center px-4 py-8 sm:px-12 sm:py-16 max-w-screen-lg mx-auto">
       <Header />
-      <h1 className="text-4xl font-bold mb-6">{welcomeText}</h1>
-      <p className="text-lg mb-4 max-w-xl">
+      <h1 className="text-2xl sm:text-4xl font-bold mb-6">{welcomeText}</h1>
+      <p className="text-base sm:text-lg mb-4 max-w-xl px-2 sm:px-0">
         Merci de faire confiance à OnTheMapQc pour distribuer ta musique.
         Clique sur le bouton ci-dessous pour accéder au formulaire à remplir.
       </p>
