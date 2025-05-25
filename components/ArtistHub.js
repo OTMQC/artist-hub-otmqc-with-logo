@@ -25,7 +25,7 @@ export default function ArtistHub() {
   ];
 
   const welcomeMessages = {
-    "Eticrazy": "Connexion établie, Eticrazy – prêt à tisser des liens à la Spiderman ?",
+    "Eticrazy": "Bonjour Eticrazy, prêt pour le next drop ?",
     "JULZ": "Bonjour JULZ, prêt pour le next drop ?",
     "KDS Requinzer": "Bonjour KDS Requinzer, prêt pour le next drop ?",
     "d'ose": "Bonjour d'ose, prêt pour le next drop ?",
