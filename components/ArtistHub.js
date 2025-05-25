@@ -25,13 +25,13 @@ export default function ArtistHub() {
 
   const welcomeMessages = {
     "Eticrazy": "Connexion établie, Eticrazy – prêt à tisser des liens à la Spiderman ?",
-    "JULZ": "Yo JULZ, prêt pour le next drop ?",
-    "KDS Requinzer": "KDS Requinzer est dans la place !",
-    "d'ose": "d'ose, on attend ton feu !",
-    "Zeke B": "Zeke B connecté – let’s go !",
-    "BbyBlurr": "Bienvenue BbyBlurr – vision floue, impact net.",
-    "Lixfe": "Lixfe, le grind continue 🔥",
-    "Bedis": "Bedis on deck, montre-nous ce que t’as."
+    "JULZ": "Bonjour JULZ, prêt pour le next drop ?",
+    "KDS Requinzer": "Bonjour KDS Requinzer, prêt pour le next drop ?",
+    "d'ose": "Bonjour d'ose, prêt pour le next drop ?",
+    "Zeke B": "Bonjour Zeke B, prêt pour le next drop ?",
+    "BbyBlurr": "Bonjour BbyBlurr, prêt pour le next drop ?",
+    "Lixfe": "Bonjour Lixfe, prêt pour le next drop ?",
+    "Bedis": "Bonjour Bedis, prêt pour le next drop ?"
   };
 
   useEffect(() => {
