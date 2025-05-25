@@ -114,8 +114,10 @@ export default function ArtistHub() {
   };
 
   const Header = () => (
-    <div className="mb-8">
-      <Image src={Logo} alt="OnTheMapQc Logo" width={300} height={100} />
+    <div className="mb-8 flex justify-center">
+      <div className="w-36 h-36 rounded-full shadow-lg ring-2 ring-gray-200 overflow-hidden">
+        <Image src={Logo} alt="OnTheMapQc Logo" width={144} height={144} className="object-cover w-full h-full" />
+      </div>
     </div>
   );
 
@@ -126,45 +128,47 @@ export default function ArtistHub() {
 
   if (!accessGranted) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center text-center p-12">
+      <div className="min-h-screen bg-white flex items-center justify-center p-6">
         <Header />
-        <h1 className="text-4xl font-bold mb-6">🎤 Accès au formulaire – OnTheMapQc</h1>
-        <p className="text-lg mb-4 max-w-xl">
-          Ce formulaire est réservé aux artistes affiliés à OnTheMapQc.
-          Entrez votre nom d'artiste et le mot de passe pour y accéder.
-        </p>
-        <input
-          type="text"
-          value={artistName}
-          onChange={(e) => setArtistName(e.target.value)}
-          placeholder="Nom d'artiste"
-          className="border px-4 py-2 rounded mb-2 w-64 text-center"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Mot de passe"
-          className="border px-4 py-2 rounded mb-2 w-64 text-center"
-        />
-        {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
-        {lockedUntil && timeLeft > 0 && (
-          <p className="text-sm text-orange-600 mb-2">
-            🔒 Accès verrouillé – temps restant : {Math.floor(timeLeft / 60)} min {timeLeft % 60}s
+        <div className="bg-white shadow-xl border border-gray-200 rounded-2xl px-8 py-10 w-full max-w-md text-center animate-fade-in">
+          <h1 className="text-3xl font-bold mb-4">Portail d'artiste</h1>
+          <p className="text-lg mb-4 max-w-xl">
+            Ce formulaire est réservé aux artistes affiliés à OnTheMapQc.
+            Entrez votre nom d'artiste et le mot de passe pour y accéder.
           </p>
-        )}
-        <button
-          onClick={handleSubmit}
-          className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition"
-        >
-          Accéder
-        </button>
-        <a
-          href={mailtoLink}
-          className="mt-4 text-sm text-blue-600 underline"
-        >
-          Contacter l'équipe
-        </a>
+          <input
+            type="text"
+            value={artistName}
+            onChange={(e) => setArtistName(e.target.value)}
+            placeholder="Nom d'artiste"
+            className="w-full border border-gray-300 px-4 py-3 rounded-xl mb-4 text-center focus:outline-none focus:ring-2 focus:ring-black"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Mot de passe"
+            className="w-full border border-gray-300 px-4 py-3 rounded-xl mb-4 text-center focus:outline-none focus:ring-2 focus:ring-black"
+          />
+          {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
+          {lockedUntil && timeLeft > 0 && (
+            <p className="text-sm text-orange-600 mb-2">
+              🔒 Accès verrouillé – temps restant : {Math.floor(timeLeft / 60)} min {timeLeft % 60}s
+            </p>
+          )}
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-black text-white py-3 rounded-xl shadow-md hover:bg-gray-800 transition font-semibold text-lg"
+          >
+            Accéder
+          </button>
+          <a
+            href={mailtoLink}
+            className="mt-4 text-sm text-blue-600 underline block"
+          >
+            Contacter l'équipe
+          </a>
+        </div>
       </div>
     );
   }
