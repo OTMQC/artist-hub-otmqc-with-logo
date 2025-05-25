@@ -3,11 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import { db } from "./firebase";
 import {
   collection,
+  addDoc,
   query,
   where,
   orderBy,
   onSnapshot,
-  addDoc,
   serverTimestamp
 } from "firebase/firestore";
 
@@ -16,22 +16,22 @@ export function ChatBox({ artist }) {
   const [message, setMessage] = useState("");
   const scrollRef = useRef(null);
 
-  useEffect(() => {
-    const cleanArtist = artist.trim();
-    console.log("🔍 Listening to room:", cleanArtist);
+  const room = artist.trim(); // nom exact, comme "JULZ" ou "Eticrazy"
 
+  useEffect(() => {
     const q = query(
       collection(db, "messages"),
-      where("room", "==", cleanArtist),
+      where("room", "==", room),
       orderBy("timestamp")
     );
+
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map((doc) => doc.data());
-      console.log("🗂️ Messages fetched:", msgs);
       setMessages(msgs);
     });
+
     return () => unsubscribe();
-  }, [artist]);
+  }, [room]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -39,24 +39,20 @@ export function ChatBox({ artist }) {
     }
   }, [messages]);
 
-  const sendMessage = async () => {
-    const cleanArtist = artist.trim();
+  const send = async () => {
     if (!message.trim()) return;
-
     await addDoc(collection(db, "messages"), {
-      from: cleanArtist,
+      from: artist,
       text: message,
-      timestamp: serverTimestamp(),
-      room: cleanArtist
+      room,
+      timestamp: serverTimestamp()
     });
-
     setMessage("");
   };
 
   return (
-    <div className="w-full mx-auto mt-6 max-w-xl p-4 border rounded-xl bg-white shadow text-left">
-      <h2 className="text-lg font-bold mb-3">💬 Discussion avec OTMQC</h2>
-      <p className="text-xs text-gray-400 mb-2">Room : <code>{artist.trim()}</code></p>
+    <div className="w-full max-w-xl mx-auto mt-6 p-4 border rounded-xl bg-white shadow text-left">
+      <h2 className="text-lg font-bold mb-3">💬 Discussion avec OnTheMapQc</h2>
       <div
         ref={scrollRef}
         className="h-64 overflow-y-auto bg-gray-50 p-3 rounded border text-sm mb-4 space-y-2"
@@ -67,7 +63,7 @@ export function ChatBox({ artist }) {
           </p>
         )}
         {messages.map((m, i) => {
-          const isMine = m.from === artist.trim();
+          const isMine = m.from === artist;
           return (
             <div
               key={i}
@@ -97,7 +93,7 @@ export function ChatBox({ artist }) {
           placeholder="Écris ton message ici..."
         />
         <button
-          onClick={sendMessage}
+          onClick={send}
           className="bg-black text-white px-4 rounded"
         >
           Envoyer
