@@ -16,9 +16,11 @@ export function ChatBox({ artist }) {
   const [message, setMessage] = useState("");
   const scrollRef = useRef(null);
 
-  const room = artist.trim();
+  const room = artist.trim().toUpperCase();
 
   useEffect(() => {
+    if (!room) return;
+
     const q = query(
       collection(db, "messages"),
       where("room", "==", room),
@@ -42,7 +44,7 @@ export function ChatBox({ artist }) {
   const send = async () => {
     if (!message.trim()) return;
     await addDoc(collection(db, "messages"), {
-      from: artist,
+      from: artist.trim(),
       text: message,
       room,
       timestamp: serverTimestamp()
@@ -58,7 +60,8 @@ export function ChatBox({ artist }) {
         className="h-64 overflow-y-auto bg-gray-50 p-3 rounded border text-sm mb-4 space-y-2"
       >
         {messages.map((m, i) => {
-          const isMine = m.from?.trim().toLowerCase() === artist.trim().toLowerCase();
+          const isMine =
+            m.from?.trim().toUpperCase() === artist.trim().toUpperCase();
           return (
             <div
               key={i}

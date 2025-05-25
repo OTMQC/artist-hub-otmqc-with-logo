@@ -18,7 +18,7 @@ export default function AdminChatDashboard() {
   const [codeInput, setCodeInput] = useState("");
   const [verified, setVerified] = useState(false);
 
-  const expectedCode = "4321";
+  const expectedCode = "4321"; // code à valider pour l'accès admin
 
   useEffect(() => {
     if (!verified) return;
@@ -27,7 +27,7 @@ export default function AdminChatDashboard() {
       const grouped = {};
       snapshot.forEach((doc) => {
         const msg = doc.data();
-        const room = msg.room?.trim();
+        const room = msg.room?.trim().toUpperCase();
         if (!grouped[room]) grouped[room] = [];
         grouped[room].push(msg);
       });
@@ -41,8 +41,7 @@ export default function AdminChatDashboard() {
 
   const sendReply = async () => {
     if (!response.trim() || !selectedRoom) return;
-
-    const roomName = selectedRoom.trim(); // Assurer que l'on écrit exactement le bon nom
+    const roomName = selectedRoom.trim().toUpperCase();
     await addDoc(collection(db, "messages"), {
       from: "admin",
       text: response,
@@ -100,7 +99,7 @@ export default function AdminChatDashboard() {
         </select>
       </div>
       <div className="bg-gray-100 p-3 h-48 overflow-y-auto rounded text-sm">
-        {(messagesByRoom[selectedRoom] || []).map((msg, i) => (
+        {(messagesByRoom[selectedRoom?.trim().toUpperCase()] || []).map((msg, i) => (
           <div key={i} className="mb-2">
             <strong>{msg.from}:</strong> {msg.text}
             <span className="text-gray-400 text-xs ml-2">
