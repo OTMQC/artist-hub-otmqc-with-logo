@@ -74,17 +74,18 @@ export default function ArtistHub() {
     }
 
     if (artistName.trim().toLowerCase() === "admin" && password.trim() === "admin-otmqc-2025$") {
-      localStorage.setItem("current-artist", artistName);
+      localStorage.setItem("current-artist", "admin");
       router.push("/admin");
       return;
     }
 
-    const artistMatch = validArtists.includes(artistName.trim());
+    const input = artistName.trim();
+    const normalizedMatch = validArtists.find(a => a.toLowerCase() === input.toLowerCase());
     const passwordMatch = password.trim() === "distrib-otmqc-2025!";
 
-    if (artistMatch && passwordMatch) {
-      recordLogin(artistName);
-      localStorage.setItem("current-artist", artistName);
+    if (normalizedMatch && passwordMatch) {
+      recordLogin(normalizedMatch);
+      localStorage.setItem("current-artist", normalizedMatch);
       router.push("/chat");
     } else {
       const attempts = loginAttempts + 1;
