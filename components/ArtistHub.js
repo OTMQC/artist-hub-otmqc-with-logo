@@ -116,8 +116,8 @@ export default function ArtistHub() {
 
   const Header = () => (
     <div className="mb-8 flex justify-center">
-      <div className="mb-8 text-center">
-        <Image src={Logo} alt="OnTheMapQc Logo" width={144} height={144} className="mx-auto object-contain" />
+      <div className="w-36 h-36 rounded-full shadow-lg ring-2 ring-gray-200 overflow-hidden">
+        <Image src={Logo} alt="OnTheMapQc Logo" width={144} height={144} className="object-cover w-full h-full" />
       </div>
     </div>
   );
