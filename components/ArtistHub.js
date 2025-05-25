@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { formatDistanceToNow } from "date-fns";
+
 import Logo from "../public/TYPO ON THE MAP AB.png";
 
 export default function ArtistHub() {
@@ -73,6 +75,7 @@ export default function ArtistHub() {
     const passwordMatch = password.trim() === "distrib-otmqc-2025!";
 
     if (artistMatch && passwordMatch) {
+      recordLogin(artistName);
       setAccessGranted(true);
       setError("");
       setLoginAttempts(0);
@@ -104,6 +107,14 @@ export default function ArtistHub() {
         to: "julien@onthemapqc.com, guillaume@onthemapqc.com, felix@onthemapqc.com"
       })
     });
+  };
+
+  
+  const recordLogin = (name) => {
+    const now = new Date().toISOString();
+    const logins = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem("artist-logins") || "[]") : [];
+    const updated = [{ name, date: now }, ...logins.filter(l => l.name !== name)];
+    localStorage.setItem("artist-logins", JSON.stringify(updated.slice(0, 10)));
   };
 
   const handleLogout = () => {
@@ -186,6 +197,16 @@ export default function ArtistHub() {
 
   const welcomeText = welcomeMessages[artistName.trim()] || "Bienvenue sur le Hub OTMQC";
 
+  const logins = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem("artist-logins") || "[]") : [];
+  const recentConnections = logins
+    .filter((l) => l.name !== artistName)
+    .slice(0, 2)
+    .map((l) => ({
+      ...l,
+      ago: formatDistanceToNow(new Date(l.date), { addSuffix: true }),
+    }));
+
+
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center text-center p-12">
       <Header />
@@ -208,6 +229,15 @@ export default function ArtistHub() {
       >
         Se déconnecter
       </button>
+      {recentConnections.length > 0 && (
+        <div className="mt-6 text-sm text-gray-500">
+          <p className="font-semibold mb-1">Activité récente</p>
+          {recentConnections.map((entry, i) => (
+            <p key={i}>🟢 {entry.name} était actif {entry.ago}</p>
+          ))}
+        </div>
+      )}
+
       <a
         href={mailtoLink}
         className="text-sm text-blue-600 underline"
