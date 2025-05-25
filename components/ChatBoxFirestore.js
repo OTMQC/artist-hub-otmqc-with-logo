@@ -55,12 +55,11 @@ export function ChatBox({ artist }) {
         )}
         {messages.map((m, i) => {
           const isMine = m.from === artist;
+          const alignmentClass = isMine ? "text-right justify-end" : "text-left justify-start";
+          const bubbleStyle = isMine ? "bg-black text-white" : "bg-gray-200 text-gray-900";
           return (
-            <div
-              key={i}
-              className={\`\${isMine ? 'text-right' : 'text-left'} flex \${isMine ? 'justify-end' : 'justify-start'}\`}
-            >
-              <div className={\`max-w-xs px-3 py-2 rounded-xl \${isMine ? 'bg-black text-white' : 'bg-gray-200 text-gray-900'}\`}>
+            <div key={i} className={`flex ${alignmentClass}`}>
+              <div className={`max-w-xs px-3 py-2 rounded-xl ${bubbleStyle}`}>
                 <p className="text-sm">{m.text}</p>
                 <p className="text-[10px] text-gray-400 mt-1">
                   {m.timestamp?.toDate().toLocaleTimeString()}
