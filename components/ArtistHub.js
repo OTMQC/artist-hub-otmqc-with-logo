@@ -171,7 +171,15 @@ export default function ArtistHub() {
             🔒 Accès verrouillé – temps restant : {Math.floor(timeLeft / 60)} min {timeLeft % 60}s
           </p>
         )}
+        
         <button
+          onClick={() => setShowInfo(!showInfo)}
+          className="ml-4 text-xl text-gray-600 hover:text-black"
+          aria-label="Informations"
+        >
+          ?
+        </button>
+<button
           onClick={handleSubmit}
           className="w-full bg-black text-white py-3 rounded-xl font-semibold shadow-lg hover:bg-gray-900 transition-all duration-200"
         >
@@ -190,7 +198,7 @@ export default function ArtistHub() {
           href="https://www.instagram.com/onthemapqc/"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 bg-[#E1306C] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#c22d61] transition"
+          className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="white">
             <path d="M224,202.66A53.34,53.34,0,1,0,277.34,256,53.38,53.38,0,0,0,224,202.66Zm124.71-41a54,54,0,0,0-30.81-30.81C294.08,122.51,224,122.51,224,122.51s-70.08,0-93.9,8.38a54,54,0,0,0-30.81,30.81C91.91,146.49,91.91,192,91.91,192s0,70.08,8.38,93.9a54,54,0,0,0,30.81,30.81C153.92,326.49,224,326.49,224,326.49s70.08,0,93.9-8.38a54,54,0,0,0,30.81-30.81c8.38-23.82,8.38-93.9,8.38-93.9S357.09,146.49,348.71,161.63ZM224,288a32,32,0,1,1,32-32A32,32,0,0,1,224,288Zm88-120a12,12,0,1,1,12-12A12,12,0,0,1,312,168Z" />
