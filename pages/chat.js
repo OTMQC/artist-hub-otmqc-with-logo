@@ -13,7 +13,7 @@ export default function ChatPage() {
 
     const stored = localStorage.getItem("current-artist");
     if (stored) {
-      setArtistName(stored);
+      setArtistName(stored.trim().toUpperCase());
     } else {
       router.push("/");
     }
@@ -30,7 +30,7 @@ export default function ChatPage() {
     router.push("/");
   };
 
-  if (!artistName || artistName === "admin") {
+  if (!artistName || artistName === "ADMIN") {
     return (
       <div className="min-h-screen flex items-center justify-center text-center text-red-600 font-bold">
         Accès non autorisé à cette page.
