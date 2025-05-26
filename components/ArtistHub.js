@@ -16,10 +16,16 @@ export default function ArtistHub() {
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [lockedUntil, setLockedUntil] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
-  const [showInfo, setShowInfo] = useState(false);
 
   const validArtists = [
-    "Eticrazy", "JULZ", "KDS Requinzer", "d'ose", "Zeke B", "BbyBlurr", "Lixfe", "Bedis"
+    "Eticrazy",
+    "JULZ",
+    "KDS Requinzer",
+    "d'ose",
+    "Zeke B",
+    "BbyBlurr",
+    "Lixfe",
+    "Bedis"
   ];
 
   const welcomeMessages = {
@@ -44,7 +50,9 @@ export default function ArtistHub() {
 
   useEffect(() => {
     if (!lockedUntil) return;
-    const interval = setInterval(() => updateTimeLeft(lockedUntil), 1000);
+    const interval = setInterval(() => {
+      updateTimeLeft(lockedUntil);
+    }, 1000);
     return () => clearInterval(interval);
   }, [lockedUntil]);
 
@@ -66,22 +74,22 @@ export default function ArtistHub() {
     }
 
     if (artistName.trim().toLowerCase() === "admin" && password.trim() === "admin-otmqc-2025$") {
-      localStorage.setItem("current-artist", "admin");
+      localStorage.setItem("current-artist", artistName);
       router.push("/admin");
       return;
     }
 
-    const input = artistName.trim();
-    const normalizedMatch = validArtists.find(a => a.toLowerCase() === input.toLowerCase());
+    const artistMatch = validArtists.includes(artistName.trim());
     const passwordMatch = password.trim() === "distrib-otmqc-2025!";
 
-    if (normalizedMatch && passwordMatch) {
-      recordLogin(normalizedMatch);
-      localStorage.setItem("current-artist", normalizedMatch);
+    if (artistMatch && passwordMatch) {
+      recordLogin(artistName);
+      localStorage.setItem("current-artist", artistName);
       router.push("/chat");
     } else {
       const attempts = loginAttempts + 1;
       setLoginAttempts(attempts);
+
       if (attempts >= 3) {
         const lockTime = new Date(Date.now() + 15 * 60 * 1000);
         setLockedUntil(lockTime);
@@ -134,18 +142,6 @@ export default function ArtistHub() {
           Ce formulaire est réservé aux artistes affiliés à OnTheMapQc.
           Entrez votre nom d'artiste et le mot de passe pour y accéder.
         </p>
-        <div className="text-right text-gray-400 mb-2">
-          <button onClick={() => setShowInfo(!showInfo)} title="Informations">❓</button>
-        </div>
-        {showInfo && (
-          <div className="text-sm text-left mb-4 p-3 border rounded bg-gray-50 shadow">
-            <p className="font-semibold mb-1">À propos du Hub</p>
-            <p>
-              Ce portail permet aux artistes de soumettre leurs projets, discuter avec l'équipe et suivre les soumissions.
-              Le formulaire de pitch vous permet de proposer vos morceaux (single, EP, album) pour distribution.
-            </p>
-          </div>
-        )}
         <input
           type="text"
           value={artistName}
@@ -188,6 +184,21 @@ export default function ArtistHub() {
           Contacter l'équipe
         </a>
       </div>
+    
+      <div className="flex justify-center py-6">
+        <a
+          href="https://www.instagram.com/onthemapqc/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 bg-[#E1306C] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#c22d61] transition"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="white">
+            <path d="M224,202.66A53.34,53.34,0,1,0,277.34,256,53.38,53.38,0,0,0,224,202.66Zm124.71-41a54,54,0,0,0-30.81-30.81C294.08,122.51,224,122.51,224,122.51s-70.08,0-93.9,8.38a54,54,0,0,0-30.81,30.81C91.91,146.49,91.91,192,91.91,192s0,70.08,8.38,93.9a54,54,0,0,0,30.81,30.81C153.92,326.49,224,326.49,224,326.49s70.08,0,93.9-8.38a54,54,0,0,0,30.81-30.81c8.38-23.82,8.38-93.9,8.38-93.9S357.09,146.49,348.71,161.63ZM224,288a32,32,0,1,1,32-32A32,32,0,0,1,224,288Zm88-120a12,12,0,1,1,12-12A12,12,0,0,1,312,168Z" />
+          </svg>
+          Suivez-nous sur Instagram
+        </a>
+      </div>
+
     </div>
   );
 }
