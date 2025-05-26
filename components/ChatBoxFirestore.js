@@ -1,98 +1,87 @@
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { db } from "./firebase";
 import {
   collection,
   addDoc,
-  query,
-  where,
-  orderBy,
   onSnapshot,
+  query,
+  orderBy,
   serverTimestamp
 } from "firebase/firestore";
 
 export function ChatBox({ artist }) {
-  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const scrollRef = useRef(null);
+  const [messages, setMessages] = useState([]);
 
   const room = artist.trim().toUpperCase();
 
   useEffect(() => {
-    if (!room) return;
-
-    const q = query(
-      collection(db, "messages"),
-      where("room", "==", room),
-      orderBy("timestamp")
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map((doc) => doc.data());
-      setMessages(msgs);
+    const q = query(collection(db, "messages"), orderBy("timestamp"));
+    const unsub = onSnapshot(q, (snapshot) => {
+      const loaded = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        if (data.room?.trim().toUpperCase() === room) {
+          loaded.push(data);
+        }
+      });
+      setMessages(loaded);
     });
 
-    return () => unsubscribe();
+    return () => unsub();
   }, [room]);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
+  const sendMessage = async () => {
+    const trimmed = message.trim();
+    if (!trimmed) return;
 
-  const send = async () => {
-    if (!message.trim()) return;
     await addDoc(collection(db, "messages"), {
-      from: artist.trim(),
-      text: message,
+      from: artist.trim().toUpperCase(),
       room,
-      timestamp: serverTimestamp()
+      text: trimmed,
+      timestamp: serverTimestamp(),
     });
+
     setMessage("");
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto mt-6 p-4 border rounded-xl bg-white shadow text-left">
-      <h2 className="text-lg font-bold mb-3">💬 Messagerie</h2>
-      <div
-        ref={scrollRef}
-        className="h-64 overflow-y-auto bg-gray-50 p-3 rounded border text-sm mb-4 space-y-2"
-      >
+    <div className="border p-4 rounded-xl bg-white shadow-sm">
+      <h2 className="text-left font-semibold mb-3 text-lg">💬 Messagerie</h2>
+      <div className="bg-gray-100 h-64 overflow-y-auto px-3 py-2 mb-4 rounded-md">
+        {messages.length === 0 && (
+          <p className="text-sm text-gray-400">Aucun message pour le moment.</p>
+        )}
         {messages.map((m, i) => {
-          const isMine =
-            m.from?.trim().toUpperCase() === artist.trim().toUpperCase();
+          const isMine = m.from === room;
           return (
             <div
               key={i}
-              className={`flex ${isMine ? "justify-end" : "justify-start"}`}
+              className={\`\${isMine ? 'text-right' : 'text-left'} flex \${isMine ? 'justify-end' : 'justify-start'} mb-2\`}
             >
-              <div
-                className={`max-w-xs px-4 py-2 rounded-2xl ${
-                  isMine
-                    ? "bg-black text-white rounded-br-none"
-                    : "bg-gray-200 text-gray-900 rounded-bl-none"
-                }`}
-              >
+              <div className={\`max-w-xs px-3 py-2 rounded-xl \${isMine ? 'bg-black text-white' : 'bg-gray-200 text-gray-900'}\`}>
                 <p className="text-sm">{m.text}</p>
-                <p className="text-[10px] text-gray-400 mt-1 text-right">
-                  {m.timestamp?.toDate().toLocaleTimeString?.() ?? ""}
-                </p>
+                {m.timestamp?.toDate && (
+                  <p className="text-xs mt-1 text-gray-400">
+                    {m.timestamp.toDate().toLocaleTimeString()}
+                  </p>
+                )}
               </div>
             </div>
           );
         })}
       </div>
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2">
         <input
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="flex-1 border p-2 rounded"
           placeholder="Écris ton message ici..."
+          className="flex-1 border p-2 rounded"
         />
         <button
-          onClick={send}
-          className="bg-black text-white px-4 rounded"
+          onClick={sendMessage}
+          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
         >
           Envoyer
         </button>
