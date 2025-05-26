@@ -16,16 +16,10 @@ export default function ArtistHub() {
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [lockedUntil, setLockedUntil] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
+  const [showInfo, setShowInfo] = useState(false);
 
   const validArtists = [
-    "Eticrazy",
-    "JULZ",
-    "KDS Requinzer",
-    "d'ose",
-    "Zeke B",
-    "BbyBlurr",
-    "Lixfe",
-    "Bedis"
+    "Eticrazy", "JULZ", "KDS Requinzer", "d'ose", "Zeke B", "BbyBlurr", "Lixfe", "Bedis"
   ];
 
   const welcomeMessages = {
@@ -50,9 +44,7 @@ export default function ArtistHub() {
 
   useEffect(() => {
     if (!lockedUntil) return;
-    const interval = setInterval(() => {
-      updateTimeLeft(lockedUntil);
-    }, 1000);
+    const interval = setInterval(() => updateTimeLeft(lockedUntil), 1000);
     return () => clearInterval(interval);
   }, [lockedUntil]);
 
@@ -90,7 +82,6 @@ export default function ArtistHub() {
     } else {
       const attempts = loginAttempts + 1;
       setLoginAttempts(attempts);
-
       if (attempts >= 3) {
         const lockTime = new Date(Date.now() + 15 * 60 * 1000);
         setLockedUntil(lockTime);
@@ -143,6 +134,18 @@ export default function ArtistHub() {
           Ce formulaire est réservé aux artistes affiliés à OnTheMapQc.
           Entrez votre nom d'artiste et le mot de passe pour y accéder.
         </p>
+        <div className="text-right text-gray-400 mb-2">
+          <button onClick={() => setShowInfo(!showInfo)} title="Informations">❓</button>
+        </div>
+        {showInfo && (
+          <div className="text-sm text-left mb-4 p-3 border rounded bg-gray-50 shadow">
+            <p className="font-semibold mb-1">À propos du Hub</p>
+            <p>
+              Ce portail permet aux artistes de soumettre leurs projets, discuter avec l'équipe et suivre les soumissions.
+              Le formulaire de pitch vous permet de proposer vos morceaux (single, EP, album) pour distribution.
+            </p>
+          </div>
+        )}
         <input
           type="text"
           value={artistName}
