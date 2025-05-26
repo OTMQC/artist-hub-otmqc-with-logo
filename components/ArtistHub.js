@@ -178,7 +178,20 @@ export default function ArtistHub() {
           aria-label="Informations"
         >
           ?
-        </button>
+        
+        {showInfo && (
+          <div className="mt-4 p-4 bg-gray-100 rounded text-left text-sm shadow">
+            <p className="mb-2 font-semibold">À propos du Hub</p>
+            <p>
+              Ce portail est réservé aux artistes affiliés à OnTheMapQc. Il permet de discuter directement avec l'équipe, de soumettre vos projets via le formulaire de pitch, et de suivre vos interactions.
+            </p>
+            <p className="mt-2">
+              Le <strong>formulaire de pitch</strong> est utilisé pour proposer vos sorties musicales (single, EP, album) à distribuer sur toutes les plateformes. Il est essentiel de remplir toutes les sections avec soin pour une diffusion optimale.
+            </p>
+          </div>
+        )}
+
+</button>
 <button
           onClick={handleSubmit}
           className="w-full bg-black text-white py-3 rounded-xl font-semibold shadow-lg hover:bg-gray-900 transition-all duration-200"
