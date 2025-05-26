@@ -127,7 +127,7 @@ export default function ArtistHub() {
       <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl px-6 sm:px-10 py-10 sm:py-12 animate-fade-in text-center border border-gray-100">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Portail d'artiste</h1>
         <p className="text-gray-600 mb-6 text-base">
-          Ce formulaire est réservé aux artistes affiliés à OnTheMapQc.
+          Ce portail est réservé aux artistes affiliés à OnTheMapQc.
           Entrez votre nom d'artiste et le mot de passe pour y accéder.
         </p>
         <div className="text-right text-gray-400 mb-2">
