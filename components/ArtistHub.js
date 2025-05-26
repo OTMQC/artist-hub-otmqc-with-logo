@@ -30,7 +30,7 @@ export default function ArtistHub() {
     "Zeke B": "Bonjour Zeke B, prêt pour le next drop ?",
     "BbyBlurr": "Bonjour BbyBlurr, prêt pour le next drop ?",
     "Lixfe": "Bonjour Lixfe, prêt pour le next drop ?",
-    "Bedis": "Bonjour Bedis, prêt pour le next drop ?"
+    "Bedis": "Bonjour Bedis, prêt pour le next drop !"
   };
 
   useEffect(() => {
@@ -114,12 +114,6 @@ export default function ArtistHub() {
     localStorage.setItem("artist-logins", JSON.stringify(updated.slice(0, 10)));
   };
 
-  const Header = () => (
-    <div className="mb-8 text-center">
-      <Image src={Logo} alt="OnTheMapQc Logo" width={200} height={100} className="mx-auto object-contain" />
-    </div>
-  );
-
   const mailtoLink =
     "mailto:julien@onthemapqc.com,guillaume@onthemapqc.com" +
     "?subject=Demande%20de%20support%20-%20Hub%20OnTheMapQc" +
@@ -127,7 +121,9 @@ export default function ArtistHub() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex flex-col items-center justify-center px-4 py-12">
-      <Header />
+      <div className="mb-8 text-center">
+        <Image src={Logo} alt="OnTheMapQc Logo" width={200} height={100} className="mx-auto object-contain" />
+      </div>
       <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl px-6 sm:px-10 py-10 sm:py-12 animate-fade-in text-center border border-gray-100">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Portail d'artiste</h1>
         <p className="text-gray-600 mb-6 text-base">
@@ -187,22 +183,20 @@ export default function ArtistHub() {
         >
           Contacter l'équipe
         </a>
+        <div className="flex justify-center mt-6">
+          <a
+            href="https://www.instagram.com/onthemapqc/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="white">
+              <path d="M224,202.66A53.34,53.34,0,1,0,277.34,256,53.38,53.38,0,0,0,224,202.66Zm124.71-41a54,54,0,0,0-30.81-30.81C294.08,122.51,224,122.51,224,122.51s-70.08,0-93.9,8.38a54,54,0,0,0-30.81,30.81C91.91,146.49,91.91,192,91.91,192s0,70.08,8.38,93.9a54,54,0,0,0,30.81,30.81C153.92,326.49,224,326.49,224,326.49s70.08,0,93.9-8.38a54,54,0,0,0,30.81-30.81c8.38-23.82,8.38-93.9,8.38-93.9S357.09,146.49,348.71,161.63ZM224,288a32,32,0,1,1,32-32A32,32,0,0,1,224,288Zm88-120a12,12,0,1,1,12-12A12,12,0,0,1,312,168Zm76-88V432a56,56,0,0,1-56,56H116a56,56,0,0,1-56-56V80A56,56,0,0,1,116,24H332A56,56,0,0,1,388,80Z" />
+            </svg>
+            Suivez-nous sur Instagram
+          </a>
+        </div>
       </div>
     </div>
   );
 }
-      <div className="flex justify-center py-6">
-        <a
-          href="https://www.instagram.com/onthemapqc/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="white">
-            <path d="M224,202.66A53.34,53.34,0,1,0,277.34,256,53.38,53.38,0,0,0,224,202.66Zm124.71-41a54,54,0,0,0-30.81-30.81C294.08,122.51,224,122.51,224,122.51s-70.08,0-93.9,8.38a54,54,0,0,0-30.81,30.81C91.91,146.49,91.91,192,91.91,192s0,70.08,8.38,93.9a54,54,0,0,0,30.81,30.81C153.92,326.49,224,326.49,224,326.49s70.08,0,93.9-8.38a54,54,0,0,0,30.81-30.81c8.38-23.82,8.38-93.9,8.38-93.9S357.09,146.49,348.71,161.63ZM224,288a32,32,0,1,1,32-32A32,32,0,0,1,224,288Zm88-120a12,12,0,1,1,12-12A12,12,0,0,1,312,168Zm76-88V432a56,56,0,0,1-56,56H116a56,56,0,0,1-56-56V80A56,56,0,0,1,116,24H332A56,56,0,0,1,388,80Z" />
-          </svg>
-          Suivez-nous sur Instagram
-        </a>
-      </div>
-
-
