@@ -19,7 +19,7 @@ export default function ArtistHub() {
   const [showInfo, setShowInfo] = useState(false);
 
   const validArtists = [
-    "Eticrazy", "JULZ", "KDS Requinzer", "d'ose", "Zeke B", "BbyBlurr", "Lixfe", "Bedis"
+    "Eticrazy", "JULZ", "KDS Requinzer", "dose", "Zeke B", "BbyBlurr", "Lixfe", "Bedis"
   ];
 
   const welcomeMessages = {
