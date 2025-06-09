@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://onthemapqc.com/sitemap.xml
