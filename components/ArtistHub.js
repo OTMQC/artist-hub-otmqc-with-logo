@@ -19,7 +19,7 @@ export default function ArtistHub() {
   const [showInfo, setShowInfo] = useState(false);
 
   const validArtists = [
-    "Eticrazy", "JULZ", "KDS Requinzer", "d'ose", "Zeke B", "BbyBlurr", "Lixfe", "Bedis"
+    "Eticrazy", "JULZ", "KDS Requinzer", "d'ose", "Zeke B", "BbyBlurr", "Lixfe", "Disbe", "66VET"
   ];
 
   const welcomeMessages = {
@@ -30,7 +30,7 @@ export default function ArtistHub() {
     "Zeke B": "Bonjour Zeke B, prêt pour le next drop ?",
     "BbyBlurr": "Bonjour BbyBlurr, prêt pour le next drop ?",
     "Lixfe": "Bonjour Lixfe, prêt pour le next drop ?",
-    "Bedis": "Bonjour Bedis, prêt pour le next drop !"
+    "Disbe": "Bonjour Disbe, prêt pour le next drop !"
   };
 
   useEffect(() => {

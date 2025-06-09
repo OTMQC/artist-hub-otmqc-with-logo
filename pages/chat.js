@@ -11,7 +11,8 @@ const greetings = {
   "Zeke B": "Bonjour Zeke B, prêt pour le next drop ?",
   "BbyBlurr": "Bonjour BbyBlurr, prêt pour le next drop ?",
   "Lixfe": "Bonjour Lixfe, prêt pour le next drop ?",
-  "Bedis": "Bonjour Bedis, prêt pour le next drop !",
+  "Disbe": "Bonjour Disbe, prêt pour le next drop !",
+  "66VET": "Bonjour 66VET, prêt pour le next drop ?"
 };
 
 
