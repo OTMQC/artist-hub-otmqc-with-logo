@@ -19,6 +19,7 @@ export default function ChatPage() {
   const [artistName, setArtistName] = useState(null);
   const [lastSeen, setLastSeen] = useState([]);
   const router = useRouter();
+  const greetingMessage = greetings[artistName] || `Bienvenue ${artistName}, voici ta boîte de discussion avec l’équipe OTMQC.`;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -54,7 +55,7 @@ export default function ChatPage() {
     <div className="min-h-screen bg-white px-4 py-8 sm:px-10 max-w-2xl mx-auto text-center">
       <h1 className="text-3xl font-bold mb-4">🎤 Portail d'artiste</h1>
       <p className="text-gray-600 mb-6">
-        Bienvenue {artistName}, voici ta boîte de discussion avec l’équipe OTMQC.
+        {greetingMessage}
       </p>
       <div className="mb-6">
         <a
