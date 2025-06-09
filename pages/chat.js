@@ -3,6 +3,18 @@ import { useEffect, useState } from "react";
 import { ChatBox } from "../components/ChatBoxFirestore";
 import { useRouter } from "next/router";
 
+const greetings = {
+  "Eticrazy": "Bonjour Eticrazy, prêt pour le next drop ?",
+  "JULZ": "Bonjour JULZ, prêt pour le next drop ?",
+  "KDS Requinzer": "Bonjour KDS Requinzer, prêt pour le next drop ?",
+  "d'ose": "Bonjour d'ose, prêt pour le next drop ?",
+  "Zeke B": "Bonjour Zeke B, prêt pour le next drop ?",
+  "BbyBlurr": "Bonjour BbyBlurr, prêt pour le next drop ?",
+  "Lixfe": "Bonjour Lixfe, prêt pour le next drop ?",
+  "Bedis": "Bonjour Bedis, prêt pour le next drop !",
+};
+
+
 export default function ChatPage() {
   const [artistName, setArtistName] = useState(null);
   const [lastSeen, setLastSeen] = useState([]);
