@@ -18,33 +18,32 @@ export default function AdminChatDashboard() {
   const [codeInput, setCodeInput] = useState("");
   const [verified, setVerified] = useState(false);
 
-  const expectedCode = "4321"; // code à valider pour l'accès admin
+  const expectedCode = "4321";
 
   useEffect(() => {
     if (!verified) return;
-    const q = query(collection(db, "messages"), orderBy("timestamp"));
-    const unsub = onSnapshot(q, (snapshot) => {
-      const grouped = {};
-      snapshot.forEach((doc) => {
-        const msg = doc.data();
-        const room = msg.room?.trim().toUpperCase();
-        if (!grouped[room]) grouped[room] = [];
-        grouped[room].push(msg);
+    const rooms = ["Eticrazy", "JULZ", "KDS Requinzer", "d'ose", "Zeke B", "BbyBlurr", "Lixfe", "Disbe", "66VET"];
+    const unsubscribers = rooms.map((artist) => {
+      const roomName = `admin-${artist.trim().toUpperCase()}`;
+      const q = query(collection(db, "messages", roomName, "chats"), orderBy("timestamp"));
+
+      return onSnapshot(q, (snapshot) => {
+        setMessagesByRoom((prev) => ({
+          ...prev,
+          [roomName]: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        }));
       });
-      setMessagesByRoom(grouped);
-      if (!selectedRoom && Object.keys(grouped).length) {
-        setSelectedRoom(Object.keys(grouped)[0]);
-      }
     });
-    return () => unsub();
-  }, [selectedRoom, verified]);
+
+    return () => unsubscribers.forEach(unsub => unsub());
+  }, [verified]);
 
   const sendReply = async () => {
     if (!response.trim() || !selectedRoom) return;
-    const roomName = selectedRoom.trim().toUpperCase();
-    await addDoc(collection(db, "messages"), {
+    const messagesRef = collection(db, "messages", selectedRoom, "chats");
+    await addDoc(messagesRef, {
       from: "admin",
-      text: response,
+      tmessage: response.trim(),
       room: roomName,
       timestamp: serverTimestamp()
     });
@@ -101,7 +100,7 @@ export default function AdminChatDashboard() {
       <div className="bg-gray-100 p-3 h-48 overflow-y-auto rounded text-sm">
         {(messagesByRoom[selectedRoom?.trim().toUpperCase()] || []).map((msg, i) => (
           <div key={i} className="mb-2">
-            <strong>{msg.from}:</strong> {msg.text}
+            <strong>{msg.sender}:</strong> {msg.message}
             <span className="text-gray-400 text-xs ml-2">
               {msg.timestamp?.toDate().toLocaleTimeString()}
             </span>
