@@ -1,6 +1,6 @@
 import { db } from "../components/firebase";
 import { useEffect, useState } from "react";
-import ChatBox from "../components/ChatBoxFirestore";
+import ChatBoxFirestore from "../components/ChatBoxFirestore";
 import { useRouter } from "next/router";
 import ArtistNavTabs from "../components/ArtistNavTabs";
 
@@ -60,7 +60,7 @@ export default function ChatPage() {
       <ArtistNavTabs active="chat" />
       <p className="text-gray-600 mb-6">{greetingMessage}</p>
 
-      <ChatBox artist={artistName} />
+      <ChatBoxFirestore artist={artistName} />
 
       <div className="mt-6 text-sm text-gray-600">
         {lastSeen.length > 0 && (
