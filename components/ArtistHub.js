@@ -78,7 +78,7 @@ export default function ArtistHub() {
     if (normalizedMatch && passwordMatch) {
       recordLogin(normalizedMatch);
       localStorage.setItem("current-artist", normalizedMatch);
-      router.push("/chat");
+      router.push("/distribution");
     } else {
       const attempts = loginAttempts + 1;
       setLoginAttempts(attempts);

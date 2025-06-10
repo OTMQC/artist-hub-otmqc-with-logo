@@ -1,3 +1,4 @@
+
 import React from "react";
 import ArtistNavTabs from "../../components/ArtistNavTabs";
 
@@ -8,7 +9,9 @@ export default function Distribution() {
 
   return (
     <div className="max-w-2xl mx-auto p-6 text-center">
+      {/* Barre de navigation entre Chat et Distribution */}
       <ArtistNavTabs activeTab="distribution" />
+
       <h1 className="text-2xl font-bold mb-4">Formulaire de distribution</h1>
       <p className="mb-6 text-gray-700">
         Remplissez le formulaire pour soumettre votre musique à l'équipe OTMQC.

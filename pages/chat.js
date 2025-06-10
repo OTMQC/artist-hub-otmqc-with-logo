@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { ChatBox } from "../components/ChatBoxFirestore";
 import { useRouter } from "next/router";
+import ArtistNavTabs from "../components/ArtistNavTabs";
 
 const greetings = {
   "Eticrazy": "Bonjour Eticrazy, prêt pour le next drop ?",
@@ -14,7 +15,6 @@ const greetings = {
   "Disbe": "Bonjour Disbe, prêt pour le next drop !",
   "66VET": "Bonjour 66VET, prêt pour le next drop ?"
 };
-
 
 export default function ChatPage() {
   const [artistName, setArtistName] = useState(null);
@@ -55,19 +55,13 @@ export default function ChatPage() {
   return (
     <div className="min-h-screen bg-white px-4 py-8 sm:px-10 max-w-2xl mx-auto text-center">
       <h1 className="text-3xl font-bold mb-4">🎤 Portail d'artiste</h1>
+      <ArtistNavTabs active="chat" />
       <p className="text-gray-600 mb-6">
         {greetingMessage}
       </p>
-      <div className="mb-6">
-        <a
-          href="https://forms.gle/XVAgU4EnDgboLv7z7"
-          className="inline-block bg-black text-white px-6 py-2 rounded-xl shadow hover:bg-gray-800 transition-all duration-200"
-          target="_blank" rel="noopener noreferrer"
-        >
-          Remplir le formulaire
-        </a>
-      </div>
+
       <ChatBox artist={artistName} />
+
       <div className="mt-6 text-sm text-gray-600">
         {lastSeen.length > 0 && (
           <>
@@ -80,6 +74,7 @@ export default function ChatPage() {
           </>
         )}
       </div>
+
       <div className="mt-8 space-y-4">
         <button
           onClick={handleLogout}
