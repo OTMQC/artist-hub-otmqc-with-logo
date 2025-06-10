@@ -54,7 +54,7 @@ export default function ChatPage() {
 
   return (
     <div className="min-h-screen bg-white px-4 py-8 sm:px-10 max-w-2xl mx-auto text-center">
-      <h1 className="text-3xl font-bold mb-4">🎤 Portail d'artiste</h1>
+      <h1 className="text-3xl font-bold mb-4">🎤 Portail d'artiste OTMQC</h1>
       <ArtistNavTabs active="chat" />
       <p className="text-gray-600 mb-6">
         {greetingMessage}
