@@ -8,11 +8,11 @@ export default function Distribution() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 text-center">
-      {/* Barre de navigation entre Chat et Distribution */}
-      <ArtistNavTabs activeTab="distribution" />
+    <div className="min-h-screen bg-white px-4 py-8 sm:px-10 max-w-2xl mx-auto text-center">
+      <h1 className="text-3xl font-bold mb-4">🎤 Portail d'artiste</h1>
+      <ArtistNavTabs active="distribution" />
 
-      <h1 className="text-2xl font-bold mb-4">Formulaire de distribution</h1>
+      <h2 className="text-2xl font-bold mt-8 mb-4">Formulaire de distribution</h2>
       <p className="mb-6 text-gray-700">
         Remplissez le formulaire pour soumettre votre musique à l'équipe OTMQC.
       </p>
@@ -25,3 +25,4 @@ export default function Distribution() {
     </div>
   );
 }
+
