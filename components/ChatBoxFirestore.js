@@ -1,95 +1,88 @@
 
-import { useEffect, useState } from "react";
-import { db } from "../components/firebase";
+import { useEffect, useState, useRef } from "react";
 import {
   collection,
   addDoc,
-  onSnapshot,
   query,
   orderBy,
+  onSnapshot,
   serverTimestamp
 } from "firebase/firestore";
+import { db } from "./firebase";
 
-export function ChatBox({ artist, currentChat }) {
-  const [message, setMessage] = useState("");
+export function ChatBox({ artist, isAdmin = false, currentChat = null }) {
   const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const scrollRef = useRef(null);
 
-  const from = (artist || "ADMIN").trim().toUpperCase();
-  const to = (currentChat || (from === "ADMIN" ? "" : "ADMIN")).trim().toUpperCase();
+  const conversationId = `admin-${isAdmin ? currentChat : artist}`;
 
   useEffect(() => {
-    if (!from || !to) return;
+    if (!conversationId) return;
 
-    const q = query(collection(db, "messages"), orderBy("timestamp"));
-    const unsub = onSnapshot(q, (snapshot) => {
-      const loaded = [];
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        const fromData = data.from?.trim().toUpperCase();
-        const toData = data.to?.trim().toUpperCase();
-        const isBetween = 
-          (fromData === from && toData === to) || 
-          (fromData === to && toData === from);
-        if (isBetween) {
-          loaded.push(data);
+    const messagesRef = collection(db, "messages", conversationId, "chats");
+    const q = query(messagesRef, orderBy("timestamp"));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const msgs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setMessages(msgs);
+
+      setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         }
-      });
-      setMessages(loaded);
+      }, 100);
     });
 
-    return () => unsub();
-  }, [from, to]);
+    return () => unsubscribe();
+  }, [conversationId]);
 
   const sendMessage = async () => {
-    const trimmed = message.trim();
-    if (!trimmed || !to) return;
+    if (!input.trim() || !conversationId) return;
 
-    await addDoc(collection(db, "messages"), {
-      from,
-      to,
-      text: trimmed,
+    const messagesRef = collection(db, "messages", conversationId, "chats");
+    await addDoc(messagesRef, {
+      sender: isAdmin ? "admin" : artist,
+      message: input.trim(),
       timestamp: serverTimestamp(),
     });
 
-    setMessage("");
+    setInput("");
   };
 
   return (
-    <div className="border p-4 rounded-xl bg-white shadow-sm">
-      <h2 className="text-left font-semibold mb-3 text-lg">💬 Messagerie</h2>
-      <div className="bg-gray-100 h-64 overflow-y-auto px-3 py-2 mb-4 rounded-md">
-        {messages.length === 0 && (
-          <p className="text-sm text-gray-400">Aucun message pour le moment.</p>
-        )}
-        {messages.map((m, i) => {
-          const isMine = m.from === from;
-          return (
-            <div
-              key={i}
-              className={(isMine ? "text-right" : "text-left") + " flex " + (isMine ? "justify-end" : "justify-start") + " mb-2"}
-            >
-              <div className={(isMine ? "bg-black text-white" : "bg-gray-200 text-gray-900") + " max-w-xs px-3 py-2 rounded-xl"}>
-                <p className="text-sm">{m.text}</p>
-                {m.timestamp?.toDate && (
-                  <p className="text-xs mt-1 text-gray-400">
-                    {m.timestamp.toDate().toLocaleTimeString()}
-                  </p>
-                )}
-              </div>
-            </div>
-          );
-        })}
+    <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+      <div
+        ref={scrollRef}
+        className="h-64 overflow-y-auto bg-white border border-gray-300 p-2 rounded mb-4"
+      >
+        {messages.map((msg) => (
+          <div key={msg.id} className="text-left mb-2">
+            <span className="font-semibold text-sm text-gray-600">
+              {msg.sender === "admin" ? "👨‍💼 Admin" : `🎤 ${msg.sender}`}
+            </span>
+            <p className="text-gray-800 text-sm">{msg.message}</p>
+          </div>
+        ))}
       </div>
-      <div className="flex gap-2">
+
+      <div className="flex space-x-2">
         <input
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Écris ton message ici..."
-          className="flex-1 border p-2 rounded"
+          type="text"
+          className="flex-grow border border-gray-300 rounded px-3 py-2"
+          placeholder="Tape ton message ici..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") sendMessage();
+          }}
         />
         <button
           onClick={sendMessage}
-          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
           Envoyer
         </button>
@@ -97,4 +90,3 @@ export function ChatBox({ artist, currentChat }) {
     </div>
   );
 }
-
