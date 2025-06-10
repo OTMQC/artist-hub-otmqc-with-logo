@@ -15,7 +15,11 @@ export function ChatBox({ artist, isAdmin = false, currentChat = null }) {
   const [input, setInput] = useState("");
   const scrollRef = useRef(null);
 
-  const conversationId = `admin-${isAdmin ? currentChat : artist}`;
+  const conversationId = isAdmin
+  ? currentChat
+    ? `admin-${currentChat.trim().toUpperCase()}`
+    : null
+  : `admin-${artist.trim().toUpperCase()}`;
 
   useEffect(() => {
     if (!conversationId) return;
@@ -82,7 +86,7 @@ export function ChatBox({ artist, isAdmin = false, currentChat = null }) {
         />
         <button
           onClick={sendMessage}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-black"
         >
           Envoyer
         </button>

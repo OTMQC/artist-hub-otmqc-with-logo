@@ -1,7 +1,9 @@
 
 import { db } from "../components/firebase";
 import { useEffect, useState } from "react";
-import { ChatBox } from "../components/ChatBoxFirestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../components/firebase";
+import ChatBoxFirestore from "../components/ChatBoxFirestore";
 import { useRouter } from "next/router";
 import ArtistNavTabs from "../components/ArtistNavTabs";
 
@@ -28,7 +30,7 @@ export default function ChatPage() {
 
     const stored = localStorage.getItem("current-artist");
     if (stored) {
-      setArtistName(stored.trim());
+      setArtistName(displayName.toUpperCase());
     } else {
       router.push("/");
     }
