@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import ArtistNavTabs from "../components/ArtistNavTabs"; // Vérifie bien que ce chemin est correct
+import ArtistNavTabs from "../components/ArtistNavTabs";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const greetings = {
