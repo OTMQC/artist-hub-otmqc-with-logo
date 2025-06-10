@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
-import ArtistNavTabs from '../components/ArtistNavTabs';
-import { onAuthStateChanged, getAuth } from "firebase/auth";
+import ArtistNavTabs from "../components/ArtistNavTabs"; // Vérifie bien que ce chemin est correct
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const greetings = {
   "Eticrazy": "Bonjour Eticrazy, prêt pour le next drop ?",
@@ -25,10 +25,12 @@ export default function Distribution() {
       if (user) {
         const displayName = user.displayName || "";
         setArtistName(displayName);
-        setGreetingMessage(greetings[displayName] || `Bienvenue ${displayName}, voici ton portail de distribution.`);
+        setGreetingMessage(
+          greetings[displayName] ||
+            `Bienvenue ${displayName}, voici ton portail de distribution.`
+        );
       }
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -40,7 +42,6 @@ export default function Distribution() {
     <div className="min-h-screen bg-white px-4 py-8 sm:px-10 max-w-2xl mx-auto text-center">
       <h1 className="text-3xl font-bold mb-4">🎤 Portail d'artiste OTMQC</h1>
       <ArtistNavTabs active="distribution" />
-
       <p className="text-gray-600 mb-6">{greetingMessage}</p>
 
       <h2 className="text-2xl font-bold mt-8 mb-4">Formulaire de distribution</h2>
