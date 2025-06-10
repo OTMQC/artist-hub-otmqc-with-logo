@@ -1,5 +1,5 @@
 
-import { db } from "../../firebase";
+import { db } from "../components/firebase";
 import { useEffect, useState } from "react";
 import { ChatBox } from "../components/ChatBoxFirestore";
 import { useRouter } from "next/router";
