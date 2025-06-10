@@ -1,8 +1,6 @@
 
 import { db } from "../components/firebase";
 import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../components/firebase";
 import ChatBoxFirestore from "../components/ChatBoxFirestore";
 import { useRouter } from "next/router";
 import ArtistNavTabs from "../components/ArtistNavTabs";
