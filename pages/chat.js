@@ -28,7 +28,7 @@ export default function ChatPage() {
 
     const stored = localStorage.getItem("current-artist");
     if (stored) {
-      setArtistName(stored.trim().toUpperCase());
+      setArtistName(stored.trim());
     } else {
       router.push("/");
     }
