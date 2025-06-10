@@ -1,19 +1,18 @@
-
 import { db } from "../components/firebase";
 import { useEffect, useState } from "react";
-import ChatBoxFirestore from "../components/ChatBoxFirestore";
+import ChatBox from "../components/ChatBoxFirestore";
 import { useRouter } from "next/router";
 import ArtistNavTabs from "../components/ArtistNavTabs";
 
 const greetings = {
-  "Eticrazy": "Bonjour Eticrazy, prêt pour le next drop ?",
+  "ETICRAZY": "Bonjour Eticrazy, prêt pour le next drop ?",
   "JULZ": "Bonjour JULZ, prêt pour le next drop ?",
-  "KDS Requinzer": "Bonjour KDS Requinzer, prêt pour le next drop ?",
-  "d'ose": "Bonjour d'ose, prêt pour le next drop ?",
-  "Zeke B": "Bonjour Zeke B, prêt pour le next drop ?",
-  "BbyBlurr": "Bonjour BbyBlurr, prêt pour le next drop ?",
-  "Lixfe": "Bonjour Lixfe, prêt pour le next drop ?",
-  "Disbe": "Bonjour Disbe, prêt pour le next drop !",
+  "KDS REQUINZER": "Bonjour KDS Requinzer, prêt pour le next drop ?",
+  "D'OSE": "Bonjour d'ose, prêt pour le next drop ?",
+  "ZEKE B": "Bonjour Zeke B, prêt pour le next drop ?",
+  "BBYBLURR": "Bonjour BbyBlurr, prêt pour le next drop ?",
+  "LIXFE": "Bonjour Lixfe, prêt pour le next drop ?",
+  "DISBE": "Bonjour Disbe, prêt pour le next drop !",
   "66VET": "Bonjour 66VET, prêt pour le next drop ?"
 };
 
@@ -21,14 +20,14 @@ export default function ChatPage() {
   const [artistName, setArtistName] = useState(null);
   const [lastSeen, setLastSeen] = useState([]);
   const router = useRouter();
-  const greetingMessage = greetings[artistName] || `Bienvenue ${artistName}, voici ta boîte de discussion avec l’équipe OTMQC.`;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const stored = localStorage.getItem("current-artist");
     if (stored) {
-      setArtistName(displayName.toUpperCase());
+      const formattedName = stored.trim().toUpperCase();
+      setArtistName(formattedName);
     } else {
       router.push("/");
     }
@@ -53,13 +52,13 @@ export default function ChatPage() {
     );
   }
 
+  const greetingMessage = greetings[artistName] || `Bienvenue ${artistName}, voici ta boîte de discussion avec l’équipe OTMQC.`;
+
   return (
     <div className="min-h-screen bg-white px-4 py-8 sm:px-10 max-w-2xl mx-auto text-center">
       <h1 className="text-3xl font-bold mb-4">🎤 Portail d'artiste OTMQC</h1>
       <ArtistNavTabs active="chat" />
-      <p className="text-gray-600 mb-6">
-        {greetingMessage}
-      </p>
+      <p className="text-gray-600 mb-6">{greetingMessage}</p>
 
       <ChatBox artist={artistName} />
 
@@ -104,3 +103,4 @@ function formatTimeAgo(dateString) {
   const hours = Math.floor(minutes / 60);
   return `il y a ${hours}h`;
 }
+
