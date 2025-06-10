@@ -38,7 +38,7 @@ export function ChatBox({ artist }) {
 
     await addDoc(collection(db, "messages"), {
       from: artist.trim().toUpperCase(),
-      room,
+      room: room,
       text: trimmed,
       timestamp: serverTimestamp(),
     });
@@ -54,7 +54,7 @@ export function ChatBox({ artist }) {
           <p className="text-sm text-gray-400">Aucun message pour le moment.</p>
         )}
         {messages.map((m, i) => {
-          const isMine = m.from === room;
+          const isMine = m.from === artist.trim().toUpperCase();
           return (
             <div
               key={i}
