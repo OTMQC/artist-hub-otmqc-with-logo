@@ -10,25 +10,27 @@ import {
   serverTimestamp
 } from "firebase/firestore";
 
-export function ChatBox({ artist }) {
+export function ChatBox({ artist, currentChat }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
-  const artistId = artist.trim().toUpperCase();
+  const from = (artist || "ADMIN").trim().toUpperCase();
+  const to = (currentChat || (from === "ADMIN" ? "" : "ADMIN")).trim().toUpperCase();
 
   useEffect(() => {
+    if (!from || !to) return;
+
     const q = query(collection(db, "messages"), orderBy("timestamp"));
     const unsub = onSnapshot(q, (snapshot) => {
       const loaded = [];
       snapshot.forEach((doc) => {
         const data = doc.data();
-        const from = data.from?.trim().toUpperCase();
-        const to = data.to?.trim().toUpperCase();
-        const isArtistChat = (
-          (from === artistId && to === "ADMIN") ||
-          (from === "ADMIN" && to === artistId)
-        );
-        if (isArtistChat) {
+        const fromData = data.from?.trim().toUpperCase();
+        const toData = data.to?.trim().toUpperCase();
+        const isBetween = 
+          (fromData === from && toData === to) || 
+          (fromData === to && toData === from);
+        if (isBetween) {
           loaded.push(data);
         }
       });
@@ -36,15 +38,15 @@ export function ChatBox({ artist }) {
     });
 
     return () => unsub();
-  }, [artistId]);
+  }, [from, to]);
 
   const sendMessage = async () => {
     const trimmed = message.trim();
-    if (!trimmed) return;
+    if (!trimmed || !to) return;
 
     await addDoc(collection(db, "messages"), {
-      from: artistId,
-      to: "ADMIN",
+      from,
+      to,
       text: trimmed,
       timestamp: serverTimestamp(),
     });
@@ -60,7 +62,7 @@ export function ChatBox({ artist }) {
           <p className="text-sm text-gray-400">Aucun message pour le moment.</p>
         )}
         {messages.map((m, i) => {
-          const isMine = m.from === artistId;
+          const isMine = m.from === from;
           return (
             <div
               key={i}
@@ -95,3 +97,4 @@ export function ChatBox({ artist }) {
     </div>
   );
 }
+

@@ -64,7 +64,7 @@ export default function AdminChatDashboard() {
     return (
       <div className="max-w-sm mx-auto mt-12 border p-6 rounded-xl text-center">
         <h2 className="text-xl font-semibold mb-4">🔐 Vérification d'identité</h2>
-        <p className="mb-2 text-sm text-gray-600">Entrez le code à 4 chiffres reçu par SMS</p>
+        <p className="mb-2 text-sm text-gray-600">Entrez le code de sécurité à 4 chiffres</p>
         <input
           type="text"
           maxLength={4}
