@@ -1,6 +1,6 @@
 
 import React from "react";
-import ArtistNavTabs from "../../components/ArtistNavTabs";
+import ArtistNavTabs from '../components/ArtistNavTabs';
 
 export default function Distribution() {
   const handleFormRedirect = () => {
