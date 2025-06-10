@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 
-export function ChatBox({ artist, isAdmin = false, currentChat = null }) {
+export function ChatBoxFirestore({ artist, isAdmin = false, currentChat = null }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const scrollRef = useRef(null);
