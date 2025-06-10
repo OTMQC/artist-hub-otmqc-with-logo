@@ -1,4 +1,5 @@
 
+import { db } from "../firebase";
 import React, { useEffect, useState } from "react";
 import ArtistNavTabs from "../components/ArtistNavTabs";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
