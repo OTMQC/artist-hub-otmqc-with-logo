@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { db } from "./firebase";
+import { db } from "../components/firebase";
 import {
   collection,
   addDoc,
@@ -14,7 +14,7 @@ export function ChatBox({ artist }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
-  const room = artist.trim().toUpperCase();
+  const artistId = artist.trim().toUpperCase();
 
   useEffect(() => {
     const q = query(collection(db, "messages"), orderBy("timestamp"));
@@ -22,7 +22,13 @@ export function ChatBox({ artist }) {
       const loaded = [];
       snapshot.forEach((doc) => {
         const data = doc.data();
-        if (data.room?.trim().toUpperCase() === room) {
+        const from = data.from?.trim().toUpperCase();
+        const to = data.to?.trim().toUpperCase();
+        const isArtistChat = (
+          (from === artistId && to === "ADMIN") ||
+          (from === "ADMIN" && to === artistId)
+        );
+        if (isArtistChat) {
           loaded.push(data);
         }
       });
@@ -30,15 +36,15 @@ export function ChatBox({ artist }) {
     });
 
     return () => unsub();
-  }, [room]);
+  }, [artistId]);
 
   const sendMessage = async () => {
     const trimmed = message.trim();
     if (!trimmed) return;
 
     await addDoc(collection(db, "messages"), {
-      from: artist.trim().toUpperCase(),
-      room: room,
+      from: artistId,
+      to: "ADMIN",
       text: trimmed,
       timestamp: serverTimestamp(),
     });
@@ -54,7 +60,7 @@ export function ChatBox({ artist }) {
           <p className="text-sm text-gray-400">Aucun message pour le moment.</p>
         )}
         {messages.map((m, i) => {
-          const isMine = m.from === artist.trim().toUpperCase();
+          const isMine = m.from === artistId;
           return (
             <div
               key={i}
